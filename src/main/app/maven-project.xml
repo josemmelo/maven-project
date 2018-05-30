@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 		<set-payload value="#['Hello Maven']" doc:name="Set Payload" />
 	</flow>
 
-	<flow name="get:/flights">
+	<flow name="retrieveFlights">
 		<http:listener config-ref="HTTP_Listener_Configuration"
 			path="/" doc:name="HTTP" />
 		<db:select config-ref="Derby_Configuration" doc:name="Database">
@@ -43,7 +43,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
          </db:parameterized-query>
 		</db:select>
 		<json:object-to-json-transformer
-			doc:name="Object to JSON" />
+			doc:name="Object to JSON" mimeType="application/json"/>
 		<logger message="Publishing message #[message.id] to flights queue"
 			level="INFO" doc:name="Logger" />
 		<jms:outbound-endpoint queue="flights"
